@@ -15,6 +15,7 @@ spec:
       containers:
       - name: hello-node
         image: fredwinrosales/hello-node:latest
+        imagePullPolicy: Always
         ports:
         - containerPort: 3000
 ---
