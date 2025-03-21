@@ -6,7 +6,7 @@ on:
 
 jobs:
   build-and-deploy:
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, linux]
 
     steps:
       - name: Checkout code
@@ -26,20 +26,11 @@ jobs:
         with:
           context: .
           push: true
-          tags: fredwinrosales/hello-node:${{ github.sha }}        
-
-      - name: Set up kubectl
-        uses: azure/setup-kubectl@v3
-        with:
-          version: 'latest'
+          tags: fredwinrosales/hello-node:${{ github.sha }}
 
       - name: Patch deployment with new image tag
         run: |
-          COMMIT_TAG=${{ github.sha }}
-          sed -i "s|fredwinrosales/hello-node:latest|fredwinrosales/hello-node:${COMMIT_TAG}|g" k8s/deployment.yaml
+          sed -i "s|fredwinrosales/hello-node:latest|fredwinrosales/hello-node:${{ github.sha }}|g" k8s/deployment.yaml
 
-      - name: Apply Kubernetes manifests (insecure)
-        run: |
-          echo "${{ secrets.KUBECONFIG_B64 }}" | base64 -d > kubeconfig.yaml
-          export KUBECONFIG=$PWD/kubeconfig.yaml
-          kubectl apply -f k8s/deployment.yaml --insecure-skip-tls-verify
+      - name: Apply Kubernetes manifests
+        run: kubectl apply -f k8s/deployment.yaml
