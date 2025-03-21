@@ -26,7 +26,7 @@ jobs:
         with:
           context: .
           push: true
-          tags: fredwinrosales/hello-node:latest
+          tags: fredwinrosales/hello-node:${{ github.sha }}        
 
       - name: Set up kubectl
         uses: azure/setup-kubectl@v3
