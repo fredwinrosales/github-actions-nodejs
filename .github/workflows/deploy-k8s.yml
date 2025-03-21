@@ -33,6 +33,11 @@ jobs:
         with:
           version: 'latest'
 
+      - name: Patch deployment with new image tag
+        run: |
+          COMMIT_TAG=${{ github.sha }}
+          sed -i "s|fredwinrosales/hello-node:latest|fredwinrosales/hello-node:${COMMIT_TAG}|g" k8s/deployment.yaml
+
       - name: Apply Kubernetes manifests (insecure)
         run: |
           echo "${{ secrets.KUBECONFIG_B64 }}" | base64 -d > kubeconfig.yaml
