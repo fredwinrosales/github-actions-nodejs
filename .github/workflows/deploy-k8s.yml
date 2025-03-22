@@ -26,11 +26,11 @@ jobs:
         with:
           context: .
           push: true
-          tags: fredwinrosales/hello-node:${{ github.sha }}
+          tags: fredwinrosales/nodejs-api:${{ github.sha }}
 
       - name: Patch deployment with new image tag
         run: |
-          sed -i "s|fredwinrosales/hello-node:latest|fredwinrosales/hello-node:${{ github.sha }}|g" k8s/deployment.yaml
+          sed -i "s|fredwinrosales/nodejs-api:latest|fredwinrosales/nodejs-api:${{ github.sha }}|g" k8s/deployment.yaml
 
       - name: Apply Kubernetes manifests
         run: kubectl apply -f k8s/deployment.yaml

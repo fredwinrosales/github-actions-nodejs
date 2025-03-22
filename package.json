@@ -1,5 +1,5 @@
 {
-  "name": "hello-node",
+  "name": "nodejs-api",
   "version": "1.0.0",
   "description": "A simple Hello World API in Node.js",
   "main": "index.js",
